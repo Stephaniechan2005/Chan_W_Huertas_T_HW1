@@ -1,58 +1,64 @@
 (() => {
-  const movieBox = document.querySelector("#movie-box");
-  const reviewTemplate = document.querySelector("#review-template");
-  const reviewCon = document.querySelector("#review-con");
+  const charBox = document.querySelector("#char-box");
+  const movieTemplate = document.querySelector("#movie-template");
+  const movieCon = document.querySelector("#movie-con");
   const baseUrl = "https://search.imdbot.workers.dev/";
+  const loader = document.querySelector("#loader");
+  const loader2 = document.querySelector("#loader2");
 
-  function getMovie() {
+  function getChar() {
+    loader.classList.toggle("hidden");
     fetch(`${baseUrl}?q=terminator`)
       .then((response) => response.json())
       .then(function (response) {
         console.log(response);
-        const movies = response.description;
+        const chars = response.description;
         const ul = document.createElement("ul");
-        movies.forEach((movie) => {
+        chars.forEach((char) => {
           const li = document.createElement("li");
           const a = document.createElement("a");
-          a.textContent = movie["#TITLE"];
-          a.dataset.review = movie["#IMDB_ID"];
+          a.textContent = char["#TITLE"];
+          a.dataset.movie = char["#IMDB_ID"];
           li.appendChild(a);
           ul.appendChild(li);
         });
-        movieBox.appendChild(ul);
+        charBox.appendChild(ul);
+        loader.classList.toggle("hidden");
       })
       .then(function () {
-        const links = document.querySelectorAll("#movie-box li a");
+        const links = document.querySelectorAll("#char-box li a");
         console.log(links);
         links.forEach(function (link) {
-          link.addEventListener("click", getReview);
+          link.addEventListener("click", getMovie);
         });
       })
       .catch(function (err) {
         console.log(err);
-        // need to add error handling for user
+        charBox.innerHTML = "<p>No character avaliable for this section</p>";
       });
 
-    function getReview(e) {
-      //console.log("getReviewed called"
-      //console.log(e.currentTarget.dataset.review);
-      const reviewID = e.currentTarget.dataset.review;
-      fetch(`${baseUrl}?tt=${reviewID}`)
+    function getMovie(e) {
+      loader2.classList.toggle("hidden");
+      //console.log("getmovieed called"
+      //console.log(e.currentTarget.dataset.movie);
+      const movieID = e.currentTarget.dataset.movie;
+      fetch(`${baseUrl}?tt=${movieID}`)
         .then((response) => response.json())
         .then(function (response) {
-          reviewCon.innerHTML = "";
+          movieCon.innerHTML = "";
           console.log(response.short.review.reviewBody);
-          const clone = reviewTemplate.content.cloneNode(true);
-          const reviewDescription = clone.querySelector(".review-description");
-          reviewDescription.innerHTML = response.short.review.reviewBody;
-          const reviewHeading = clone.querySelector(".review-heading");
-          reviewHeading.innerHTML = response.short.name;
-          reviewCon.appendChild(clone);
+          const clone = movieTemplate.content.cloneNode(true);
+          const movieDescription = clone.querySelector(".movie-description");
+          movieDescription.innerHTML = response.short.review.reviewBody;
+          const movieHeading = clone.querySelector(".movie-heading");
+          movieHeading.innerHTML = response.short.name;
+          movieCon.appendChild(clone);
+          loader2.classList.toggle("hidden");
         })
         .catch(function (err) {
-          reviewCon.innerHTML = "<p>No review avaliable for this section</p>";
+          movieCon.innerHTML = "<p>No movie avaliable for this section</p>";
         });
     }
   }
-  getMovie();
+  getChar();
 })();
