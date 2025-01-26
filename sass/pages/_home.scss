@@ -1,21 +1,130 @@
+@use "../abstracts/variables" as h;
+
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 ul {
-    list-style: none;
-    padding:0;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap; // Change to nowrap
+  overflow-x: auto; // Add horizontal scrolling
+  scroll-snap-type: x mandatory; // Add scroll snapping
+  cursor: grab; // Add cursor style for dragging
+  // -ms-overflow-style: none;
+  // scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    // display: none; // Hide scrollbar for Chrome, Safari, and Opera
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #a8a8a8;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ffe600;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ffe600;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-start;
+
+    li {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+  }
 }
 
 li {
-    padding: 10px;
+  padding: 10px;
+  font-size: 20px;
+  font-family: "trade-gothic-next-condensed", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #ffe600;
+  text-align: center;
+  overflow: hidden;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 250px;
+
+  @media (max-width: 768px) {
+    width: 100px;
+  }
 }
 
-li:nth-child(odd) {
-    background-color: #efefef;
-}
+// li:nth-child(odd) {
+//   background-color: #efefef;
+// }
 
 li img {
-    max-width: 10%;
-    display: block;
+  width: 70%;
+  display: block;
+  margin: 0 auto;
+  // padding-bottom: 10px;
+  // padding-top: 30px;
+  border-radius: 10px;
+
+  @media (min-width: 769px) {
+    width: 100%;
+  }
+}
+
+body {
+  background-image: url(../images/Stars-BG.png);
+  background-size: auto;
+  display: block;
+  padding: 20px;
+  background-repeat: repeat;
+}
+
+#hero-banner img {
+  display: block;
+  height: 200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#hero-banner p {
+  font-family: "trade-gothic-next-compressed";
+  font-size: 50px;
+  color: #ffe600;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+#movie-con {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-around;
+  padding: 20px;
+  gap: 30px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.movie-description,
+.movie-ep,
+.movie-director,
+.movie-heading {
+  text-align: center;
+}
+
+#movie-con img {
+  width: 80%;
+  border-radius: 10px;
 }
