@@ -1,4 +1,5 @@
 (() => {
+  gsap.registerPlugin(ScrollToPlugin);
   const charBox = document.querySelector("#char-box");
   const movieTemplate = document.querySelector("#movie-template");
   const movieCon = document.querySelector("#movie-con");
@@ -6,14 +7,26 @@
   const loader = document.querySelector("#loader");
   const loader2 = document.querySelector("#loader2");
 
-  document.querySelectorAll("li").forEach((li, index) => {
-    li.addEventListener("click", () => {
-      gsap.to(window, {
-        duration: 2,
-        scrollTo: { y: "#movie-con" + (index + 1), offsetY: 200 },
-      });
-    });
-  });
+  // const links = document.querySelectorAll("#char-box li a");
+  // console.log(links);
+  // links.forEach(function (link) {
+  //   link.addEventListener("click", () => {
+  //     gsap.to(window, {
+  //       duration: 2,
+  //       scrollTo: { y: "#movie-con", offsetY: 200 },
+  //     });
+  //   });
+  // });
+
+  // constdocument.querySelectorAll("li").forEach((li, index) => {
+  //   li.addEventListener("click", () => {
+  //     gsap.registerPlugin(ScrollToPlugin);
+  //     gsap.to(window, {
+  //       duration: 2,
+  //       scrollTo: { y: "#movie-con" + (index + 1), offsetY: 200 },
+  //     });
+  //   });
+  // });
 
   function getChar() {
     loader.classList.toggle("hidden");
@@ -40,15 +53,18 @@
         chars.forEach((char) => {
           const li = document.createElement("li");
 
+          const a = document.createElement("a");
+          a.dataset.movie = char["films"];
+
           // Create and append the image element
           const img = document.createElement("img");
           img.src = characterImages[char["name"]];
-          li.appendChild(img);
+          a.appendChild(img);
 
-          const a = document.createElement("a");
-          a.textContent = char["name"];
-          a.dataset.movie = char["films"];
-          // console.log(a.dataset.movie[1]);
+          // Append the text content after the image
+          const text = document.createTextNode(char["name"]);
+          a.appendChild(text);
+
           li.appendChild(a);
           ul.appendChild(li);
         });
@@ -60,7 +76,15 @@
         const links = document.querySelectorAll("#char-box li a");
         console.log(links);
         links.forEach(function (link) {
-          link.addEventListener("click", getMovie);
+          link.addEventListener("click", (e) => {
+            // Remove highlight from all characters
+            links.forEach((link) =>
+              link.parentElement.classList.remove("highlight")
+            );
+            // Highlight the clicked character
+            e.currentTarget.parentElement.classList.add("highlight");
+            getMovie(e);
+          });
         });
       })
       .catch(function (err) {
@@ -96,21 +120,35 @@
 
             const clone = movieTemplate.content.cloneNode(true);
 
-            const movieDescription = clone.querySelector(".movie-description");
-            movieDescription.innerHTML = response.opening_crawl;
-            const movieHeading = clone.querySelector(".movie-heading");
-            movieHeading.innerHTML = response.title;
-            const movieEp = clone.querySelector(".movie-ep");
-            movieEp.innerHTML = `Episode: ${response.episode_id}`;
-            const movieDirector = clone.querySelector(".movie-director");
-            movieDirector.innerHTML = `Director: ${response.director}`;
+            // Create a container for the image and movie details
+            const movieContainer = document.createElement("div");
+            movieContainer.classList.add("movie-container");
 
             // Add movie image
             const movieImage = document.createElement("img");
             movieImage.src = movieImages[response["title"]];
-            clone.appendChild(movieImage);
+            movieImage.classList.add("movie-image");
+            movieContainer.appendChild(movieImage);
 
-            movieCon.appendChild(clone);
+            // Add movie details to the container
+            const movieDetails = document.createElement("div");
+            movieDetails.classList.add("movie-details");
+
+            const movieHeading = clone.querySelector(".movie-heading");
+            movieHeading.innerHTML = response.title;
+            movieDetails.appendChild(movieHeading);
+            const movieDirector = clone.querySelector(".movie-director");
+            movieDirector.innerHTML = `Director: ${response.director}`;
+            movieDetails.appendChild(movieDirector);
+            const movieEp = clone.querySelector(".movie-ep");
+            movieEp.innerHTML = `Episode: ${response.episode_id}`;
+            movieDetails.appendChild(movieEp);
+            const movieDescription = clone.querySelector(".movie-description");
+            movieDescription.innerHTML = response.opening_crawl;
+            movieDetails.appendChild(movieDescription);
+
+            movieContainer.appendChild(movieDetails);
+            movieCon.appendChild(movieContainer);
             loader2.classList.toggle("hidden");
           })
           .catch(function (err) {

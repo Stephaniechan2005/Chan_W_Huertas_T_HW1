@@ -124,7 +124,35 @@ body {
   text-align: center;
 }
 
+.movie-heading {
+  padding-top: 20px;
+  font-family: "trade-gothic-next-condensed", sans-serif;
+  font-size: 50px;
+  color: #ffe600;
+}
+
+.movie-description {
+  font-family: "trade-gothic-next";
+  font-size: 20px;
+  color: #ffe600;
+}
+
 #movie-con img {
+  padding-top: 50px;
   width: 80%;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: block;
+}
+
+.highlight {
+  border: 2px solid yellow;
+  background-color: rgba(255, 255, 0, 0.2);
+  border-radius: 10px;
+}
+
+li:hover {
+  border: 2px solid yellow;
+  background-color: rgba(255, 255, 0, 0.2);
   border-radius: 10px;
 }
