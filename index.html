@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/rak3jxa.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap"
       rel="stylesheet"
@@ -13,11 +14,25 @@
     <link href="css/grid.css" rel="stylesheet" />
     <link href="css/main.css" rel="stylesheet" />
     <script defer src="js/main.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollToPlugin.min.js"
+    ></script>
   </head>
   <body>
+    <div id="hero-banner">
+      <p>MEET THE</p>
+      <img src="images/star-wars-4.svg" alt="Star Wars Logo" />
+      <p>CHARACTERS</p>
+    </div>
+
     <div class="grid-con">
-      <section class="col-span-full m-col-span-6">
-        <h2>Character</h2>
+      <section class="col-span-full m-col-span-full">
+        <!-- <h2>Character</h2> -->
         <svg
           id="loader"
           class="hidden"
@@ -29,8 +44,8 @@
           xml:space="preserve"
         >
           <path
-            fill="#3767FF"
-            stroke="#3767FF"
+            fill="#ffe600"
+            stroke="#ffe600"
             stroke-width="6"
             transform-origin="center"
             d="m148 84.7 13.8-8-10-17.3-13.8 8a50 50 0 0 0-27.4-15.9v-16h-20v16A50 50 0 0 0 63 67.4l-13.8-8-10 17.3 13.8 8a50 50 0 0 0 0 31.7l-13.8 8 10 17.3 13.8-8a50 50 0 0 0 27.5 15.9v16h20v-16a50 50 0 0 0 27.4-15.9l13.8 8 10-17.3-13.8-8a50 50 0 0 0 0-31.7Zm-47.5 50.8a35 35 0 1 1 0-70 35 35 0 0 1 0 70Z"
@@ -49,7 +64,7 @@
         </svg>
         <div id="char-box"></div>
       </section>
-      <section class="col-span-full m-col-span-6">
+      <section class="col-span-full m-col-span-full">
         <h2>Movie</h2>
         <svg
           id="loader2"
@@ -62,8 +77,8 @@
           xml:space="preserve"
         >
           <path
-            fill="#3767FF"
-            stroke="#3767FF"
+            fill="#ffe600"
+            stroke="#ffe600"
             stroke-width="6"
             transform-origin="center"
             d="m148 84.7 13.8-8-10-17.3-13.8 8a50 50 0 0 0-27.4-15.9v-16h-20v16A50 50 0 0 0 63 67.4l-13.8-8-10 17.3 13.8 8a50 50 0 0 0 0 31.7l-13.8 8 10 17.3 13.8-8a50 50 0 0 0 27.5 15.9v16h20v-16a50 50 0 0 0 27.4-15.9l13.8 8 10-17.3-13.8-8a50 50 0 0 0 0-31.7Zm-47.5 50.8a35 35 0 1 1 0-70 35 35 0 0 1 0 70Z"

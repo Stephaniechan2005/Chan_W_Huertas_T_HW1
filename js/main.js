@@ -6,8 +6,31 @@
   const loader = document.querySelector("#loader");
   const loader2 = document.querySelector("#loader2");
 
+  document.querySelectorAll("li").forEach((li, index) => {
+    li.addEventListener("click", () => {
+      gsap.to(window, {
+        duration: 2,
+        scrollTo: { y: "#movie-con" + (index + 1), offsetY: 200 },
+      });
+    });
+  });
+
   function getChar() {
     loader.classList.toggle("hidden");
+    // Mapping of character names to image URLs
+    const characterImages = {
+      "Luke Skywalker": "../images/luke-skywalker.png",
+      "Darth Vader": "../images/darth-vader.png",
+      "Leia Organa": "../images/leia-organa.png",
+      "Owen Lars": "../images/owen-lars.png",
+      "Beru Whitesun lars": "../images/beru-whitesun-lars.png",
+      "R5-D4": "../images/R5-D4.png",
+      "Biggs Darklighter": "../images/biggs-darklighter.png",
+      "Obi-Wan Kenobi": "../images/obi-wan-kenobi.png",
+      "C-3PO": "../images/C-3po.png",
+      "R2-D2": "../images/R2-D2.png",
+    };
+
     fetch(`${baseUrl}people`)
       .then((response) => response.json())
       .then(function (response) {
@@ -16,6 +39,12 @@
         const ul = document.createElement("ul");
         chars.forEach((char) => {
           const li = document.createElement("li");
+
+          // Create and append the image element
+          const img = document.createElement("img");
+          img.src = characterImages[char["name"]];
+          li.appendChild(img);
+
           const a = document.createElement("a");
           a.textContent = char["name"];
           a.dataset.movie = char["films"];
@@ -25,6 +54,7 @@
         });
         charBox.appendChild(ul);
         loader.classList.toggle("hidden");
+        setupSlider(); // Move this line here
       })
       .then(function () {
         const links = document.querySelectorAll("#char-box li a");
@@ -39,6 +69,19 @@
       });
 
     function getMovie(e) {
+      // Mapping of movie titles to image URLs
+      const movieImages = {
+        "A New Hope": "../images/new-hope.png",
+        "The Empire Strikes Back": "../images/empire-strikes-back.png",
+        "Return of the Jedi": "../images/return-of-the-jedi.png",
+        "The Phantom Menace": "../images/the-phantom-menace.png",
+        "Attack of the Clones": "../images/attack-of-the-clones.png",
+        "Revenge of the Sith": "../images/revenge-of-the-sith.png",
+        // "The Force Awakens": "../images/force-awakens.png",
+        // "The Last Jedi": "../images/the-last-jedi.png",
+        // "The Rise of Skywalker": "../images/the-rise-of-skywalker.png",
+      };
+
       //console.log("getmovieed called"
       //console.log(e.currentTarget.dataset.movie);
       const movieIDs = e.currentTarget.dataset.movie.split(",");
@@ -50,7 +93,9 @@
           .then((response) => response.json())
           .then(function (response) {
             console.log(response.title);
+
             const clone = movieTemplate.content.cloneNode(true);
+
             const movieDescription = clone.querySelector(".movie-description");
             movieDescription.innerHTML = response.opening_crawl;
             const movieHeading = clone.querySelector(".movie-heading");
@@ -59,6 +104,12 @@
             movieEp.innerHTML = `Episode: ${response.episode_id}`;
             const movieDirector = clone.querySelector(".movie-director");
             movieDirector.innerHTML = `Director: ${response.director}`;
+
+            // Add movie image
+            const movieImage = document.createElement("img");
+            movieImage.src = movieImages[response["title"]];
+            clone.appendChild(movieImage);
+
             movieCon.appendChild(clone);
             loader2.classList.toggle("hidden");
           })
@@ -68,5 +119,45 @@
       });
     }
   }
+
+  //slider function
+  function setupSlider() {
+    const ul = document.querySelector("#char-box ul");
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    ul.addEventListener("mousedown", (e) => {
+      if (e.target.tagName === "IMG") {
+        e.preventDefault();
+      }
+      isDown = true;
+      ul.classList.add("active");
+      startX = e.pageX - ul.offsetLeft;
+      scrollLeft = ul.scrollLeft;
+    });
+
+    ul.addEventListener("mouseleave", () => {
+      isDown = false;
+      ul.classList.remove("active");
+    });
+
+    ul.addEventListener("mouseup", () => {
+      isDown = false;
+      ul.classList.remove("active");
+    });
+
+    ul.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - ul.offsetLeft;
+      const walk = (x - startX) * 1; // Scroll-slow
+      ul.scrollLeft = scrollLeft - walk;
+    });
+
+    // Add smooth scrolling
+    ul.style.scrollBehavior = "smooth";
+  }
+
   getChar();
 })();
