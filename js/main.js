@@ -1,4 +1,5 @@
 (() => {
+  gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(ScrollToPlugin);
   const charBox = document.querySelector("#char-box");
   const movieTemplate = document.querySelector("#movie-template");
@@ -109,7 +110,7 @@
       //console.log("getmovieed called"
       //console.log(e.currentTarget.dataset.movie);
       const movieIDs = e.currentTarget.dataset.movie.split(",");
-      movieIDs.forEach((movieID) => {
+      movieIDs.forEach((movieID, index) => {
         loader2.classList.toggle("hidden");
         movieCon.innerHTML = "";
         console.log(movieID);
@@ -149,6 +150,20 @@
 
             movieContainer.appendChild(movieDetails);
             movieCon.appendChild(movieContainer);
+            gsap.from(movieContainer, {
+              opacity: 0,
+              y: 100, // Move the movie container up
+              ease: "power3.out",
+              duration: 0.5,
+              delay: index * 0.5, // Delay the animation of each movie by 0.5 seconds
+              scrollTrigger: {
+                trigger: "#movie-con",
+                toggleActions: "play none none none",
+                start: "top center",
+                end: "bottom center",
+                markers: true,
+              },
+            });
             loader2.classList.toggle("hidden");
           })
           .catch(function (err) {

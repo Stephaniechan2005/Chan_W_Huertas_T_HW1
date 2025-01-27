@@ -106,15 +106,12 @@ body {
 }
 
 #movie-con {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   gap: 30px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
 }
 
 .movie-description,
@@ -155,4 +152,20 @@ li:hover {
   border: 2px solid yellow;
   background-color: rgba(255, 255, 0, 0.2);
   border-radius: 10px;
+}
+
+@media screen and (min-width: 760px) {
+  #movie-con {
+    flex-direction: row;
+    padding: 0;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .movie-container {
+    flex: 0 0 48%;
+
+    gap: 20px;
+  }
 }
