@@ -1,6 +1,6 @@
 (() => {
-  gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(ScrollToPlugin);
+
   const charBox = document.querySelector("#char-box");
   const movieTemplate = document.querySelector("#movie-template");
   const movieCon = document.querySelector("#movie-con");
@@ -150,20 +150,35 @@
 
             movieContainer.appendChild(movieDetails);
             movieCon.appendChild(movieContainer);
+
+            // Animate the movie container
+            gsap.to(window, {
+              duration: 3,
+              ease: "power2.out",
+              scrollTo: { y: "#movie-con", offsetY: 0 },
+            });
             gsap.from(movieContainer, {
               opacity: 0,
-              y: 100, // Move the movie container up
-              ease: "power3.out",
-              duration: 0.5,
-              delay: index * 0.5, // Delay the animation of each movie by 0.5 seconds
-              scrollTrigger: {
-                trigger: "#movie-con",
-                toggleActions: "play none none none",
-                start: "top center",
-                end: "bottom center",
-                markers: true,
-              },
+              y: 50,
+              duration: 3,
+              ease: "power2.out",
+              delay: index * 0.4, // Add a 0.5 second delay for each movie
             });
+            // gsap.from(movieContainer, {
+            //   opacity: 0,
+            //   y: 100, // Move the movie container up
+            //   ease: "power3.out",
+            //   duration: 0.5,
+            //   stagger: 0.5,
+            //   // delay: index * 0.5, // Delay the animation of each movie by 0.5 seconds
+            //   scrollTrigger: {
+            //     trigger: "#movie-con",
+            //     toggleActions: "play none none none",
+            //     start: "top center",
+            //     end: "bottom center",
+            //     markers: true,
+            //   },
+            // });
             loader2.classList.toggle("hidden");
           })
           .catch(function (err) {
